@@ -1,17 +1,25 @@
 """
     most_common_colors(img::String)
 img: path to local image file
+n: how many common colors to return
 """
-function most_common_colors(img::String)
+function most_common_colors(img::String, n::Int)
 
     colorthief = pyimport("colorthief")
     color_thief = colorthief.ColorThief(img)
-    cols = color_thief.get_palette(color_count=8)
+    cols = color_thief.get_palette(color_count=n)
 
-	color1 = RGB(cols[1][1]/255, cols[1][2]/255,  cols[1][3]/255)
-	color2 = RGB(cols[2][1]/255, cols[2][2]/255,  cols[2][3]/255)
-	color3 = RGB(cols[3][1]/255, cols[3][2]/255,  cols[3][3]/255)
 
-    return (color1, color2, color3)
+	function getone(x)
+		RGB(cols[x][1]/255, cols[x][2]/255,  cols[x][3]/255)
+	end
+
+	output = []
+	for i in 1:n-1
+		push!(output,getone(i))
+	end
+
+
+    return output
 
 end
